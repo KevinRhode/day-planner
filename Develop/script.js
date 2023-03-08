@@ -1,11 +1,31 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+
 let now = dayjs();
+let dataId = now.format('YYYYMMDD')
+let localStorageData;
+
+loadLocalStorage(dataId);
+
+let dataObj = {
+  date : dataId,
+  textAreaData : {
+   "9": "",
+   "10": "",
+   "11": "",
+   "12": "",
+   "13": "",
+   "14": "",
+   "15": "",
+   "16": "",
+   "17": ""
+  }
+};
 
 $(function () {
   
-  let hours = 13;
+  let hours = 9;
     
   let header = $('#currentDay');
    
@@ -22,20 +42,20 @@ $(function () {
 
     let checkhours = dayjs().hour(hours);
     if (now.$H > checkhours.$H) {
-      //do somthing
+      //aplly past if now hour is greater then checkhour
       hourDiv.addClass('row time-block past');
     } else if (now.$H === checkhours.$H) {
+      //aplly present if now hour is equal to checkhour
       hourDiv.addClass('row time-block present');
     } else {
+      //aplly future if now hour is less then checkhour
       hourDiv.addClass('row time-block future');
     }
-
-    
     
     let detailDiv = $('<div>');
     detailDiv.addClass('col-2 col-md-1 hour text-center py-3');
     //
-    let ampm = index < 3 ? 'AM': 'PM';
+    // let ampm = index < 3 ? 'AM': 'PM';
     detailDiv.text(checkhours.format('h A'));
     hourDiv.append(detailDiv);
 
@@ -107,5 +127,21 @@ function endingFormat(getFormating){
 }
 
 function handleSave(){
-// do i hit this?
+  // get parent elements id of the delegated button pressed
+  let ORC = $(this).parent('div');
+  let Id = ORC.attr('id');
+  dataObj.textAreaData[Id] = ORC.children().eq(1)[0].value;
+  //.attr('id')
+  window.localStorage.setItem(dataId,JSON.stringify(dataObj));
+}
+
+function loadLocalStorage(dateId){
+
+    try {
+      dataObj = JSON.parse(window.localStorage.getItem(dateId)); 
+      // let datatatatatatatat = dataObj
+    } catch (error) {
+      
+    }
+
 }
