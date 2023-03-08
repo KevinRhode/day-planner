@@ -1,28 +1,42 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-
+let now = dayjs();
 
 $(function () {
   
-  
-  let now = dayjs();  
+  let hours = 13;
+    
   let header = $('#currentDay');
    
+    //
+    // TODO: Add code to display the current date in the header of the page.
     header.text(dayjs(now).format('dddd, MMMM D')+ endingFormat(dayjs(now).format('DD'))) ;   
 
     let plannerContainer = $('.container-fluid');    
 
-    for (let index = 0; index < 12; index++) {
-      // Create button
+    for (let index = 0; index < 9; index++) {
+    // Create button
     let hourDiv = $('<div>');
-    hourDiv.addClass('row time-block present');
+    hourDiv.attr('id',hours)
+
+    let checkhours = dayjs().hour(hours);
+    if (now.$H > checkhours.$H) {
+      //do somthing
+      hourDiv.addClass('row time-block past');
+    } else if (now.$H === checkhours.$H) {
+      hourDiv.addClass('row time-block present');
+    } else {
+      hourDiv.addClass('row time-block future');
+    }
+
+    
     
     let detailDiv = $('<div>');
     detailDiv.addClass('col-2 col-md-1 hour text-center py-3');
     //
-    let k = now.$d;
-    detailDiv.text('the hour it is for 10AM exp');
+    let ampm = index < 3 ? 'AM': 'PM';
+    detailDiv.text(checkhours.format('h A'));
     hourDiv.append(detailDiv);
 
     let detailTextArea = $('<textarea>');
@@ -36,8 +50,14 @@ $(function () {
     detailBtn.attr('aria-label','save');
     hourDiv.append(detailBtn);
 
-    plannerContainer.append(hourDiv);     
-
+    plannerContainer.append(hourDiv);    
+    
+    // if (hours === 12) {
+    //   hours = 1;
+    // }else{
+    //   hours++
+    // }    
+      hours++;
     }
 
 
@@ -47,7 +67,7 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  // plannerContainer.on('click','')
+  plannerContainer.on('click','.saveBtn',handleSave)
 
   //
   // TODO: Add code to apply the past, present, or future class to each time
@@ -55,14 +75,17 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+  //apply present, past current
+  
+  let testitititit =  plannerContainer.children('.time-block');
+
 
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  //
-  // TODO: Add code to display the current date in the header of the page.
+  
 
 });
 
@@ -81,4 +104,8 @@ function endingFormat(getFormating){
   else{
     return'th';
   }
+}
+
+function handleSave(){
+// do i hit this?
 }
