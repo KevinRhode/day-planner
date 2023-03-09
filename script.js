@@ -21,8 +21,12 @@ let dataObj = {
    "15": "",
    "16": "",
    "17": ""
-  }
+  }  
 };
+//to popluate on new domains
+if (JSON.parse(localStorage.getItem(dataId)) == null) {
+  localStorage.setItem(JSON.stringify(dataObj));
+}
 
 $(function () {
   
