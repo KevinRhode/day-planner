@@ -25,7 +25,7 @@ let dataObj = {
 };
 //to popluate on new domains
 if (JSON.parse(localStorage.getItem(dataId)) == null) {
-  localStorage.setItem(dataid,JSON.stringify(dataObj));
+  localStorage.setItem(dataId,JSON.stringify(dataObj));
 }
 
 $(function () {
