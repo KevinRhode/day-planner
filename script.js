@@ -28,7 +28,7 @@ if (JSON.parse(localStorage.getItem(dataId)) == null) {
   localStorage.setItem(dataId,JSON.stringify(dataObj));
 }
 
-$(function () {
+$(document).ready(function () {
   
   let hours = 9;
     
