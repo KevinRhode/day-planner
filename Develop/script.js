@@ -5,6 +5,7 @@
 let now = dayjs();
 let dataId = now.format('YYYYMMDD')
 let localStorageData;
+let plannerContainer = $('.container-fluid'); 
 
 loadLocalStorage(dataId);
 
@@ -32,14 +33,20 @@ $(function () {
     //
     // TODO: Add code to display the current date in the header of the page.
     header.text(dayjs(now).format('dddd, MMMM D')+ endingFormat(dayjs(now).format('DD'))) ;   
-
-    let plannerContainer = $('.container-fluid');    
-
+    //select Dom element to append to
+       
+    //loop though all Rows
     for (let index = 0; index < 9; index++) {
-    // Create button
+    // Create Hour Row
     let hourDiv = $('<div>');
     hourDiv.attr('id',hours)
 
+
+    // TODO: Add code to apply the past, present, or future class to each time
+    // block by comparing the id to the current hour. HINTS: How can the id
+    // attribute of each time-block be used to conditionally add or remove the
+    // past, present, and future classes? How can Day.js be used to get the
+    // current hour in 24-hour time?
     let checkhours = dayjs().hour(hours);
     if (now.$H > checkhours.$H) {
       //aplly past if now hour is greater then checkhour
@@ -60,6 +67,7 @@ $(function () {
     hourDiv.append(detailDiv);
 
     let detailTextArea = $('<textarea>');
+    detailTextArea.text(localStorageData.textAreaData[hours])
     detailTextArea.attr('rows','3');
     detailTextArea.addClass('col-8 col-md-10 description') 
     hourDiv.append(detailTextArea);  
@@ -70,13 +78,7 @@ $(function () {
     detailBtn.attr('aria-label','save');
     hourDiv.append(detailBtn);
 
-    plannerContainer.append(hourDiv);    
-    
-    // if (hours === 12) {
-    //   hours = 1;
-    // }else{
-    //   hours++
-    // }    
+    plannerContainer.append(hourDiv);   
       hours++;
     }
 
@@ -88,23 +90,6 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   plannerContainer.on('click','.saveBtn',handleSave)
-
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //apply present, past current
-  
-  let testitititit =  plannerContainer.children('.time-block');
-
-
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-
   
 
 });
@@ -126,22 +111,55 @@ function endingFormat(getFormating){
   }
 }
 
+ // TODO: Add code to get any user input that was saved in localStorage and set
+  // the values of the corresponding textarea elements. HINT: How can the id
+  // attribute of each time-block be used to do this?
 function handleSave(){
   // get parent elements id of the delegated button pressed
   let ORC = $(this).parent('div');
   let Id = ORC.attr('id');
-  dataObj.textAreaData[Id] = ORC.children().eq(1)[0].value;
+  localStorageData.textAreaData[Id] = ORC.children().eq(1)[0].value;
   //.attr('id')
-  window.localStorage.setItem(dataId,JSON.stringify(dataObj));
+  window.localStorage.setItem(dataId,JSON.stringify(localStorageData));
+  //create custom alert
+  let alertUserOfSave = $("<div></div>").html('Appointment Added to <span>localStorage</span>  <i class="fa fa-check"></i>');
+  alertUserOfSave.addClass('customUlAlert').css('text-align','center');
+  //alertUserOfSave.html('appointment added to <span>localStorage</span><i class="fa fa-check"></i>');
+  alertTimer();
+  plannerContainer.prepend(alertUserOfSave);
+  
+  
 }
 
 function loadLocalStorage(dateId){
 
     try {
-      dataObj = JSON.parse(window.localStorage.getItem(dateId)); 
+      let dataObj2 = JSON.parse(localStorage.getItem(dateId)); 
       // let datatatatatatatat = dataObj
+      localStorageData = dataObj2;
+
     } catch (error) {
       
     }
+
+}
+
+//let custom alert disapear after a bit
+function alertTimer() {
+  // Sets timer
+  timerCount = 1;
+  timer = setInterval(function() {    
+    
+
+    // Tests if time has run out
+    if (timerCount === 0) {
+      // Clears interval
+      clearInterval(timer);
+     $('.customUlAlert').remove();
+    }
+
+    timerCount--;
+  }, 1000);
+  
 
 }

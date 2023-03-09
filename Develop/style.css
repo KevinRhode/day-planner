@@ -65,3 +65,17 @@ header{
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+/* custom css for localstorage save */
+.customUlAlert {
+  padding: 0.5rem 0;
+}
+/* custom css for localstorage save */
+.customUlAlert span{
+  color: #ff0d00;
+}
+/* custom css for localstorage save */
+.customUlAlert i{
+  color: #08db08;
+
+}
