@@ -67,7 +67,9 @@ $(function () {
     hourDiv.append(detailDiv);
 
     let detailTextArea = $('<textarea>');
-    detailTextArea.text(localStorageData.textAreaData[hours])
+    if (!localStorageData) {
+      detailTextArea.text(localStorageData.textAreaData[hours])
+    }    
     detailTextArea.attr('rows','3');
     detailTextArea.addClass('col-8 col-md-10 description') 
     hourDiv.append(detailTextArea);  
