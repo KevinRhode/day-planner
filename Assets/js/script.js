@@ -1,14 +1,17 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-
+//get current day
 let now = dayjs();
+//custom id for selecting localStorage. uses current date as id, then secon object with 24 hour time id for hours
 let dataId = now.format('YYYYMMDD')
+//Data
 let localStorageData;
+//container for div rows
 let plannerContainer = $('.container-fluid'); 
 
 
-
+//data object template of what is saved to localStorage
 let dataObj = {
   date : dataId,
   textAreaData : {
@@ -31,7 +34,7 @@ if (JSON.parse(localStorage.getItem(dataId)) == null) {
 loadLocalStorage(dataId);
 
 $(document).ready(function () {
-  
+  //starting ttime - uses 24 hour format for id so 12 - 1 is not an issue
   let hours = 9;
     
   let header = $('#currentDay');
@@ -64,14 +67,14 @@ $(document).ready(function () {
       //aplly future if now hour is less then checkhour
       hourDiv.addClass('row time-block future');
     }
-    
+    //left portion of UL div
     let detailDiv = $('<div>');
     detailDiv.addClass('col-2 col-md-1 hour text-center py-3');
     //
-    // let ampm = index < 3 ? 'AM': 'PM';
+    //gives hour pls am or pm with A
     detailDiv.text(checkhours.format('h A'));
     hourDiv.append(detailDiv);
-
+    //text area users types in
     let detailTextArea = $('<textarea>');
     if (localStorageData !== null) {
       detailTextArea.text(localStorageData.textAreaData[hours])
@@ -80,8 +83,11 @@ $(document).ready(function () {
     detailTextArea.addClass('col-8 col-md-10 description') 
     hourDiv.append(detailTextArea);  
 
+    //adds button on end
     let detailBtn = $('<button>');
+    //adds floppy dish icon to save button
     detailBtn.html('<i class="fas fa-save" aria-hidden="true"></i>');
+    //sytling of button
     detailBtn.addClass('btn saveBtn col-2 col-md-1');
     detailBtn.attr('aria-label','save');
     hourDiv.append(detailBtn);
@@ -102,7 +108,7 @@ $(document).ready(function () {
 
 });
 
-
+//custom method to as verbage at the end of day
 function endingFormat(getFormating){
   if(getFormating === '11'){
     return 'th';
@@ -125,6 +131,7 @@ function endingFormat(getFormating){
 function handleSave(){
   // get parent elements id of the delegated button pressed
   let ORC = $(this).parent('div');
+  //gets the id of the var for saving to the correct object
   let Id = ORC.attr('id');
   localStorageData.textAreaData[Id] = ORC.children().eq(1)[0].value;
   //.attr('id')
@@ -138,9 +145,9 @@ function handleSave(){
   
   
 }
-
+//load localStorage in golbal var
 function loadLocalStorage(dateId){
-
+    //try incase nothing is in localstorage
     try {
       let dataObj2 = JSON.parse(localStorage.getItem(dateId)); 
       // let datatatatatatatat = dataObj
