@@ -7,7 +7,7 @@ let dataId = now.format('YYYYMMDD')
 let localStorageData;
 let plannerContainer = $('.container-fluid'); 
 
-loadLocalStorage(dataId);
+
 
 let dataObj = {
   date : dataId,
@@ -27,6 +27,8 @@ let dataObj = {
 if (JSON.parse(localStorage.getItem(dataId)) == null) {
   localStorage.setItem(dataId,JSON.stringify(dataObj));
 }
+
+loadLocalStorage(dataId);
 
 $(document).ready(function () {
   
