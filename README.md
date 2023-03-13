@@ -31,7 +31,7 @@ THEN the saved events persist
 ```
 
 <!-- @TODO: create ticket to review/update image) -->
-![A user clicks on slots on the color-coded calendar and edits the events.](./Assets/05-third-party-apis-homework-demo.gif)
+![Preview of the deployed website](./Assets/images/preview.png)
 
 
 
@@ -39,6 +39,6 @@ THEN the saved events persist
 
 
 
-* The URL of the deployed application
+* [The URL of the deployed application](https://kevinrhode.github.io/day-planner/)
 
-* The URL of the GitHub repository, with a unique name and a README describing the project
+* [The URL of the GitHub repository](https://github.com/KevinRhode/day-planner)
